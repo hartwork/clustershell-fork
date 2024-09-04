@@ -6,6 +6,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest]
         python-version: [ '3.7', '3.8', '3.9', '3.10', '3.11']
@@ -14,6 +15,12 @@ jobs:
             python-version: '3.6'
     name: Tests with Python ${{ matrix.python-version }}
     steps:
+    - name: Debug Expat version
+      run: |
+        set -x
+        cat /etc/os-release
+        apt-cache policy libexpat1
+        exit 1
     - uses: actions/checkout@v3
     - name: Set up Python
       uses: actions/setup-python@v3
